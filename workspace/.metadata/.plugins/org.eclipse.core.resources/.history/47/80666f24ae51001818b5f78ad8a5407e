@@ -1,0 +1,32 @@
+package edu.adaptive.database.client;
+
+import java.util.List;
+import java.util.ArrayList;
+
+import edu.adaptive.database.model.Course;
+import edu.adaptive.database.services.CourseService;
+import edu.adaptive.database.services.CourseServiceTmpl;
+
+public class CourseSearch {
+	public void Search()
+	{
+		CourseService courseServices = CourseServiceTmpl();
+		List(Course) courseList = null;
+		Course course = null;
+		
+		courseList = courseService.search();
+		
+		System.out.println("\nID Course Code     Course Name     Credits    Active");
+		System.out.println("--------------------------------------------------------");
+		for(int i=0; i<courseList.size(); i++)
+		{
+			course = courseList.get(i);
+			System.out.println("20s%-20s%-10s%n",
+					course.getCourseCode(),
+					course.getCourseName(),
+					couse.getCourseFlag()
+					);
+		}
+	}
+	
+}

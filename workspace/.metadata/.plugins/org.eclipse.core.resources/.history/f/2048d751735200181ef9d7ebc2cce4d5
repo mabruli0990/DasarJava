@@ -1,0 +1,33 @@
+package edu.adaptive.database.client;
+
+import java.util.Scanner;
+
+import edu.adaptive.database.model.StudentCourse;
+import edu.adaptive.database.services.StudentCourseService;
+import edu.adaptive.database.services.StudentCourseServiceImpl;
+
+public class StudentCourseInsert {
+	public void Insert()
+	{
+		Scanner scan = new Scanner(System.in);
+		String strInput = "";
+		StudentCourse studentCourse = new StudentCourse();
+		StudentCourseService studentCourseService = new StudentCourseServiceImpl();
+		
+		System.out.println("Kode mata kuliah : ");
+		strInput = scan.nextLine();
+		course.setCourseCode(strInput);
+		
+		System.out.println("Nama mata kuliah : ");
+		strInput = scan.nextLine();
+		course.setCourseName(strInput);
+		
+		System.out.println("Aktif [Y / N] : ");
+		strInput = scan.nextLine();
+		course.setActiveFlag(strInput);
+		course.setCreateBy("Admin");
+		
+		courseService.insert(course);
+		System.out.println("Data mata Kuliah " + course.getCourseCode() + " Berhasil Disimpan !");
+	}
+}

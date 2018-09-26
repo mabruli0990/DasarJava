@@ -1,0 +1,11 @@
+package edu.adaptive.database.duo;
+
+import java.util.List;
+
+public interface CourseDAO {
+	void insert(Course course);
+	void update (Course course);
+	void delete (String courseCode);
+	Course findById (String courseCode);
+	List<Course> search();
+}

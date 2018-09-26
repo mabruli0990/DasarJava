@@ -1,0 +1,50 @@
+package edu.adaptive.database.client;
+
+import java.util.Scanner;
+
+import edu.adaptive.database.model.StudentCourse;
+import edu.adaptive.database.services.StudentCourseService;
+import edu.adaptive.database.services.StudentCourseServiceImpl;
+
+public class StudentCourseUpdate {
+	public void Update()
+	{
+		Scanner scan = new Scanner(System.in);
+		String strInput = "";
+		Course course = null;
+		CourseService courseService = new CourseServiceTmpl();
+		
+		System.out.println(" Kode Mata kuiah : ");
+		strInput = scan.nextLine();
+		
+		course = courseService.findByUk(strInput);
+		
+		if(course != null)
+		{
+			System.out.println("Data mata kuliah : ");
+			System.out.println("Kode mata kuliah : " + course.getCourseCode() );
+			System.out.println("Nama mata kuliah : " + course.getCourseName() );
+			System.out.println("Aktif : " + course.getActiveFlag() );
+			
+			System.out.println(" \n Data mata kuiah baru");
+			System.out.println("Nama mata kuliah : ");
+			strInput = scan.nextLine();
+			course.setCourseName(strInput);
+
+			
+			System.out.print("Aktif [Y / N] : ");
+			strInput = scan.nextLine();
+			course.setActiveFlag(strInput);
+			course.setCourseCode(course.getCourseCode());
+			
+			courseService.update(course);
+			
+			System.out.println(" Data mata kuliah berhasil di update");
+			
+		}
+		else
+		{
+			System.out.println("Data mata Kuliah" + strInput + " tidak ditemukan");
+		}
+	}
+}

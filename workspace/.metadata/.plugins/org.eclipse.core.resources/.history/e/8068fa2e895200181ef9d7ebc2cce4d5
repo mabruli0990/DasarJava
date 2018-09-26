@@ -1,0 +1,60 @@
+package edu.adaptive.database.client;
+
+import java.util.Scanner;
+
+import edu.adaptive.database.model.StudentCourse;
+import edu.adaptive.database.services.StudentCourseService;
+import edu.adaptive.database.services.StudentCourseServiceImpl;
+
+public class StudentCourseUpdate {
+	public void Update()
+	{
+		Scanner scan = new Scanner(System.in);
+		String strInput = "";
+		String strInput1 = "";
+		String strInput2 = "";
+		String strInput3 = "";
+		
+		StudentCourse studentCourse = null;
+		StudentCourseService studentCourseService = new StudentCourseServiceImpl();
+		
+		System.out.print(" Studen No : ");
+		strInput1 = scan.nextLine();
+		
+		System.out.print(" Course Code  : ");
+		strInput2 = scan.nextLine();
+		
+		System.out.print(" Semester : ");
+		strInput3 = scan.nextLine();
+		
+		System.out.print(strInput1 + strInput2 + strInput3);
+		studentCourse = studentCourseService.findByUk(strInput1, strInput2, strInput3);
+		
+		if(studentCourse != null)
+		{
+			System.out.println("Data kuliah : ");
+			System.out.println("Student No : " + studentCourse.getStudentNo());
+			System.out.println("Course Code : " + studentCourse.getCourseCode() );
+			System.out.println("Semester : " + studentCourse.getSemester());
+			
+			System.out.println(" \n Data mata kuiah baru");
+			System.out.println("Result : ");
+			 strInput = scan.nextLine();
+			 int intInput = Integer.parseInt(strInput);
+			studentCourse.setResult(intInput);
+
+			studentCourse.setStudentNo(studentCourse.getStudentNo());
+			studentCourse.setCourseCode(studentCourse.getCourseCode());
+			studentCourse.setSemester(studentCourse.getSemester());
+			
+			studentCourseService.update(studentCourse);
+			
+			System.out.println(" Data mata kuliah berhasil di update");
+			
+		}
+		else
+		{
+			System.out.println("Data mata Kuliah " + strInput1 + " " + strInput2 + " " + strInput3 + " tidak ditemukan");
+		}
+	}
+}

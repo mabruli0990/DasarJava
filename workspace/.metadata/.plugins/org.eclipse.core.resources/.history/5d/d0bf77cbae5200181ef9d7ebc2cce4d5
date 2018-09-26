@@ -1,0 +1,180 @@
+package edu.adaptive.database.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.adaptive.database.model.Student;
+
+public class StudentDAOImpl implements StudentDAO {
+	
+	private final String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	private final String driverName = "oracle.jdbc.driver.OracleDriver";
+	private final String userName = "ADAPTIVE2_DB";
+	private final String password = "adaptive";
+	
+	private Connection getConnection()
+	{
+		Connection con = null;
+		
+		try
+		{
+			Class.forName(driverName);
+			con = DriverManager.getConnection(url, userName, password);
+		}
+		catch(ClassNotFoundException e)
+		{
+			System.out.println("failed to open connection");
+			e.printStackTrace();
+		}
+		catch(SQLException e )
+		{
+			System.out.println("failed to open connection");
+			e.printStackTrace();
+		}
+		return con;
+	}
+	
+	
+	public void insert(Student student) {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+		
+		String sqlInsert = 
+				"insert into tbl_student" + 
+				"(student_no, student_name, gender, birth_place, birth_date, address, active_flag, create_by, create_on) " + 
+				"values (?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try
+		{
+			con = getConnection();
+			ps = con.prepareStatement(sqlInsert);
+			ps.setString(1, student.getStudentNo());
+			ps.setString(2, student.getStudentName());
+			ps.setString(3, student.getGender());
+			ps.setString(4, student.getBirthPlace());
+			ps.setDate(5, (java.sql.Date) student.getBirthDate());
+			ps.setString(6, student.getAddress());
+			ps.setString(7, student.getActiveFlag());
+			ps.setString(8, student.getCreateBy());
+			ps.setTimestamp(9, (Timestamp)student.getCreateOn());
+			
+			result = ps.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println("failed on execute database proses");
+		}
+		
+		finally
+		{
+			try
+			{
+				ps.close();
+				con.close();
+			}
+			catch (SQLException e)
+			{
+				System.out.println("failed to close database resource");
+			}
+		}
+	}
+
+	@Override
+	public void update(Student student) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(String studentNo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Student findById(String studentNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Student findByUk(String studentNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getNextCourseId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	public List<Student> search() {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Student student = null;
+		List<Student> studentList = new ArrayList<Student>();
+		String sql = "select * from tbl_student ";
+				
+		try
+		{
+			con = getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while (rs.next())
+			{
+				student = new Student();
+				
+				student.setStudentNo(rs.getString("student_no"));
+				student.setStudentName(rs.getString("student_name"));
+				student.setGender(rs.getString("gender"));
+				student.setBirthPlace(rs.getString("birth_place"));
+				student.setBirtDate(rs.getDate("birth_date"));
+				student.setAddress(rs.getString("address"));
+				student.setActiveFlag(rs.getString("Active_flag"));
+				student.setCreateBy(rs.getString("create_by"));
+				student.setCreateOn(rs.getDate("create_on"));
+				student.setUpdateBy(rs.getString("update_by"));
+				student.setUpdateOn(rs.getDate("update_on"));
+				studentList.add(student);
+			}
+		}
+		
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println("Failed on execute database process");
+		}
+		
+		finally
+		{
+			try
+			{
+				ps.close();
+				con.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+				System.out.println("Failed on execute database resource");
+			}
+			
+			
+		}
+		return studentList;
+	}
+	
+}

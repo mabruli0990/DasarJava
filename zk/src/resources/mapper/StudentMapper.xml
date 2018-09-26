@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+  
+<mapper namespace='adaptive.zk.dao.StudentMapper'>
+	
+	<resultMap id='StudentResult' type='Student'>
+		<id property='studentNo' column='student_no'/>
+		<result property='studentName' column='student_name'/>
+		<result property='address' column='address'/>
+		<result property='gender' column='gender'/>
+		<result property='birthPlace' column='birth_place'/>
+		<result property='birthDate' column='birth_date'/>
+		<result property='activeFlag' column='active_flag'/>
+		<result property='createBy' column='create_by'/>
+		<result property='createOn' column='create_on'/>
+		<result property='updateBy' column='update_by'/>
+		<result property='updateOn' column='update_on'/>
+	</resultMap>
+
+	<select id='searchCriteria' resultMap='StudentResult' parameterType='Student'>
+		SELECT * FROM TBL_STUDENT
+		WHERE upper(student_no) LIKE upper('%'|| #{studentNo} ||'%')
+			and upper(student_name) LIKE upper('%'|| #{studentName} ||'%')
+	</select>
+	
+	<select id='findByUk' parameterType="java.lang.String" resultMap="StudentResult">
+		SELECT
+			STUDENT_NO as studentNo,
+			STUDENT_NAME as studentName ,
+			GENDER as gender,
+			ADDRESS as address,
+			ACTIVE_FLAG as activeFlag,
+			BIRTH_PLACE as birthPlace,
+			BIRTH_DATE as birthDate
+		FROM
+			TBL_STUDENT
+		WHERE
+			STUDENT_NO = #{studentNo}
+	</select>
+	
+	<insert id='insert' parameterType='Student'>
+		INSERT INTO TBL_STUDENT
+			(STUDENT_NO, 
+			 STUDENT_NAME, 
+			 GENDER,
+			 ADDRESS,
+]			 BIRTH_DATE,
+			 BIRTH_PLACE,
+			 ACTIVE_FLAG, 
+			 CREATE_BY, 
+			 CREATE_ON
+			 )
+		VALUES(#{studentNo,jdbcType=VARCHAR}, 
+			   #{studentName,jdbcType=VARCHAR},
+		 	   #{gender,jdbcType=VARCHAR}, 
+		 	   #{address,jdbcType=VARCHAR},
+		 	   #{birthDate,jdbcType=DATE},
+		 	   #{birthPlace,jdbcType=VARCHAR},
+		 	   #{activeFlag,jdbcType=VARCHAR},
+		 	   #{createBy,jdbcType=VARCHAR}, 
+		       #{createOn,jdbcType=DATE}
+		       )
+	</insert>
+	
+	<update id='update' parameterType='Student'>
+		UPDATE TBL_STUDENT
+		SET
+			STUDENT_NAME = #{studentName,jdbcType=VARCHAR},
+			GENDER =  #{gender,jdbcType=VARCHAR},
+			ADDRESS = #{address,jdbcType=VARCHAR},
+			PHONE = #{phone,jdbcType=VARCHAR},
+			BIRTH_PLACE = #{birthPlace,jdbcType=VARCHAR},
+			BIRTH_DATE = #{birthDate,jdbcType=DATE},
+			ACTIVE_FLAG = #{activeFlag,jdbcType=VARCHAR},
+			UPDATE_BY = #{updateBy},
+			UPDATE_On = #{updateOn}
+		WHERE
+			STUDENT_No = #{studentNo,jdbcType=VARCHAR}
+	</update>
+	
+	<delete id='delete' parameterType='java.lang.Long'>
+		DELETE FROM TBL_STUDENT WHERE STUDENT_No = #{studentNo}
+	</delete>
+	
+</mapper>

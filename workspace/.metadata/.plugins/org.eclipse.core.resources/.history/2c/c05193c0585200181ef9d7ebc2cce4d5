@@ -1,0 +1,7 @@
+package edu.adaptive.database.client;
+
+import edu.adaptive.database.services.StudentService;
+import edu.adaptive.database.services.StudentServiceImpl;
+public class StudentSearch {
+	StudentService studentService = new StudentServices();
+}

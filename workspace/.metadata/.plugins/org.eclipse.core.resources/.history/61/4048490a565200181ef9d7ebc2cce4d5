@@ -1,0 +1,135 @@
+package edu.adaptive.database.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.adaptive.database.model.Course;
+import edu.adaptive.database.model.Student;
+
+public class StudentDAOImpl implements StudentDAO {
+	
+	private final String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	private final String driverName = "oracle.jdbc.driver.OracleDriver";
+	private final String userName = "ADAPTIVE2_DB";
+	private final String password = "adaptive";
+	
+	private Connection getConnection()
+	{
+		Connection con = null;
+		
+		try
+		{
+			Class.forName(driverName);
+			con = DriverManager.getConnection(url, userName, password);
+		}
+		catch(ClassNotFoundException e)
+		{
+			System.out.println("failed to open connection");
+			e.printStackTrace();
+		}
+		catch(SQLException e )
+		{
+			System.out.println("failed to open connection");
+			e.printStackTrace();
+		}
+		return con;
+	}
+	
+	
+
+	@Override
+	public void insert(Student student) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(Student student) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(String studentNo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Student findById(String studentNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Student findByUk(String studentNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getNextCourseId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	public List<Student> search() {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Student student = null;
+		List<Student> courseList = new ArrayList<Course>();
+		String sql = "select * from tbl_course ";
+				
+		try
+		{
+			con = getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while (rs.next())
+			{
+				course = new Course();
+				
+				course.setCourseCode(rs.getString("course_code"));
+				course.setCourseName(rs.getString("course_name"));
+				course.setActiveFlag(rs.getString("Active_flag"));
+				course.setCreateBy(rs.getString("create_by"));
+				course.setCreateOn(rs.getDate("create_on"));
+				course.setUpdateBy(rs.getString("update_by"));
+				course.setUpdateOn(rs.getDate("update_on"));
+				courseList.add(course);
+			}
+		}
+		
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println("Failed on execute database process");
+		}
+		
+		finally
+		{
+			try
+			{
+				ps.close();
+				con.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+				System.out.println("Failed on execute database resource");
+			}
+			
+			
+		}
+		return courseList;
+	}
+	
+}

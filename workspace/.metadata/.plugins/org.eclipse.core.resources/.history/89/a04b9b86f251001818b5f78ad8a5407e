@@ -1,0 +1,44 @@
+package edu.adaptive.database.duo;
+
+import java.util.List;
+import java.sql.Connection;
+
+public class CourseDAOImpl implements CourseDAO{
+	
+	private final String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	private final String driverName = "oracle.jdbc.driver.oracleDriver";
+	private final String userName = "ADAPTIVE2_DB";
+	private final String password = "adaptive";
+	
+
+	@Override
+	public void insert(Course course) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(Course course) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(String courseCode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Course findById(String courseCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Course> search() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

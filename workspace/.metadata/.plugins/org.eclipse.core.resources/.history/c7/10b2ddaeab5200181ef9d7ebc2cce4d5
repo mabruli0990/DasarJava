@@ -1,0 +1,49 @@
+package edu.adaptive.database.client;
+
+import java.util.Scanner;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
+import edu.adaptive.database.model.Student;
+import edu.adaptive.database.services.StudentService;
+import edu.adaptive.database.services.StudentServiceImpl;
+
+public class StudentInsert {
+	public void Insert()
+	{
+		Scanner scan = new Scanner(System.in);
+		String strInput = "";
+		Student student = new Student();
+		StudentService studentService = new StudentServiceImpl();
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+		
+		System.out.print("No Pelajar : ");
+		strInput = scan.nextLine();
+		student.setStudentNo(strInput);
+		
+		System.out.print("Nama Pelajar : ");
+		strInput = scan.nextLine();
+		student.setStudentName(strInput);
+		
+		System.out.print("Gender : ");
+		strInput = scan.nextLine();
+		student.setGender(strInput);
+		
+		System.out.print("Birth Place : ");
+		strInput = scan.nextLine();
+		student.setBirthPlace(strInput);
+		
+		System.out.print("Birth Date : ");
+		strInput = scan.nextLine();
+		Date intInput
+		student.setStudentName(strInput);
+		
+		
+		
+		
+		
+		studentService.insert(student);
+		System.out.println("Data mata Kuliah " + student.getStudentName() + " Berhasil Disimpan !");
+	}
+}

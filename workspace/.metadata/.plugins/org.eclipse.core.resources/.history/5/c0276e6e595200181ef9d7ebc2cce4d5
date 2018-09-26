@@ -1,0 +1,18 @@
+package edu.adaptive.database.client;
+
+import edu.adaptive.database.services.StudentService;
+import edu.adaptive.database.services.StudentServiceImpl;
+
+import java.util.List;
+
+import edu.adaptive.database.model.Student;
+
+public class StudentSearch {
+	public void search()
+	{
+		StudentService studentService = new StudentServiceImpl();
+		List<Student> studentList = null;
+		Student student = null;
+		studentList = studentService.search();
+	}
+}

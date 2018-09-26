@@ -1,0 +1,36 @@
+package edu.adaptive.database.client;
+
+import java.util.List;
+
+import edu.adaptive.database.model.Student;
+import edu.adaptive.database.model.StudentCourse;
+import edu.adaptive.database.services.StudentCourseService;
+import edu.adaptive.database.services.StudentCourseServiceImpl;
+import edu.adaptive.database.services.StudentService;
+import edu.adaptive.database.services.StudentServiceImpl;
+
+public class StudentCourseSearch {
+	public void Search()
+	{
+		StudentCourseService studentCourseService = new StudentCourseServiceImpl();
+		List<StudentCourse> studentCourseList = null;
+		StudentCourse studentCourse = null;
+		studentCourseList = studentCourseService.search();
+		
+		System.out.println("\n Studen_no  Studen_name course_code  course_name  semester result keterangan ");
+		System.out.println("-------------------------------------------------------------------------------");
+		
+		for(int i=0; i<studentCourseList.size(); i++)
+		{
+			studentCourse = studentCourseList.get(i);
+			System.out.printf("\n%-20s%-20s%-6s",
+					studentCourse.getStudentNo(),
+					studentCourse.getStudentName(),
+					studentCourse.getCourseCode(),
+					studentCourse.getCourseName(),
+					studentCourse.getSemester(),
+					studentCourse.getResult() );
+		}
+		
+	}
+}

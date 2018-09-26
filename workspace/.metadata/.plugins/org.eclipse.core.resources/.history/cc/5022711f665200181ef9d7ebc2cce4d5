@@ -1,0 +1,15 @@
+package edu.adaptive.database.dao;
+
+import java.util.List;
+
+import edu.adaptive.database.model.Student;
+
+public interface StudentCourseDAO {
+	void insert (StudentCourse student);
+	void update (StudentCourse student);
+	void delete (String studentNo);
+	StudentCourse findById (String studentNo);
+	StudentCourse findByUk (String studentNo);
+	Long getNextCourseId();
+	List<StudentCourse> search();
+}

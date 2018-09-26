@@ -1,0 +1,5 @@
+package edu.adaptive.database.client;
+
+public class CourseSearch {
+
+}

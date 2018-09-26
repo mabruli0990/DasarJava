@@ -1,0 +1,55 @@
+package edu.adaptive.database.services;
+
+import java.util.List;
+
+import edu.adaptive.database.dao.StudentDAO;
+import edu.adaptive.database.dao.StudentDAOImpl;
+import edu.adaptive.database.model.Student;
+
+public class StudentServiceImpl implements StudentService{
+	
+	private StudentDAO studentDAO = new StudentDAOImpl();
+
+	@Override
+	public void insert(Student student) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(Student student) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(String studentNo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Student findById(String studentNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Student findByUk(String studentNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getNextCourseId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Student> search() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

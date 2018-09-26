@@ -1,0 +1,5 @@
+package edu.adaptive.database.model;
+
+public class Course {
+
+}

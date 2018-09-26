@@ -1,0 +1,13 @@
+package edu.adaptive.database.dao;
+
+import edu.adaptive.database.dao.Course
+
+public interface CourseDAO {
+	void insert (Course course);
+	void update (Course course);
+	void delete (String courseCode);
+	Course findById (String courseCode);
+	Course findByUk (String courseCode);
+	String getNextCourseId();
+	List<Course> search();
+}

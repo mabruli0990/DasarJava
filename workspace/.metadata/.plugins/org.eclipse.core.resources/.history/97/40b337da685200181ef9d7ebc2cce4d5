@@ -1,0 +1,58 @@
+package edu.adaptive.database.services;
+
+import java.util.List;
+
+import edu.adaptive.database.model.StudentCourse;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+import edu.adaptive.database.dao.StudentCourseDAO;
+import edu.adaptive.database.dao.StudentCourseDAOImpl;
+
+
+public class StudentCourseServiceImpl implements  StudentCourseService{
+
+	@Override
+	public void insert(StudentCourse studentCourse) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(StudentCourse studentCourse) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(String studentNo, String courseCode, String semester) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public StudentCourse findById(String studentNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StudentCourse findByUk(String studentNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getNextCourseId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<StudentCourse> search() {
+		// TODO Auto-generated method stub
+		return StudentCourseDAO.search();
+	}
+
+}

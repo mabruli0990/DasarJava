@@ -1,0 +1,311 @@
+package edu.adaptive.database.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.adaptive.database.model.Course;
+import edu.adaptive.database.model.Student;
+import edu.adaptive.database.model.StudentCourse;
+
+public class StudentCourseDAOImpl implements StudentCourseDAO {
+	
+	private final String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	private final String driverName = "oracle.jdbc.driver.OracleDriver";
+	private final String userName = "ADAPTIVE2_DB";
+	private final String password = "adaptive";
+	
+	private Connection getConnection()
+	{
+		Connection con = null;
+		
+		try
+		{
+			Class.forName(driverName);
+			con = DriverManager.getConnection(url, userName, password);
+		}
+		catch(ClassNotFoundException e)
+		{
+			System.out.println("failed to open connection");
+			e.printStackTrace();
+		}
+		catch(SQLException e )
+		{
+			System.out.println("failed to open connection");
+			e.printStackTrace();
+		}
+		return con;
+	}
+
+	
+	public void insert(StudentCourse studentCourse) {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+		
+		String sqlInsert = 
+				"insert into tbl_student_course " + 
+				"(student_no, course_code, semester, result, create_by, create_on) " + 
+				"values (?, ?, ?, ?, ?, ?)";
+		
+		try
+		{
+			con = getConnection();
+			ps = con.prepareStatement(sqlInsert);
+			ps.setString(1, studentCourse.getStudentNo());
+			ps.setString(2, studentCourse.getCourseCode());
+			ps.setString(3, studentCourse.getSemester());
+			ps.setInt(4, studentCourse.getResult());
+			ps.setString(5, studentCourse.getCreateBy());
+			ps.setTimestamp(6, (Timestamp)studentCourse.getCreateOn());
+			
+			result = ps.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println("failed on execute database proses");
+		}
+		
+		finally
+		{
+			try
+			{
+				ps.close();
+				con.close();
+			}
+			catch (SQLException e)
+			{
+				System.out.println("failed to close database resource");
+			}
+		}
+	}
+
+	
+	public void update(StudentCourse studentCourse) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+		
+		String sqlUpdate = 
+				" update tbl_student_course " + 
+				" set " + 
+				" result = ?, " +
+				" update_by = ?, " +
+				" update_on = ? " +
+				" Where " + 
+				" student_no = ? AND course_code = ? AND semester = ? ";
+		try
+		{
+			con = getConnection();
+			ps = con.prepareStatement(sqlUpdate);
+			ps.setInt(1, studentCourse.getResult());
+			ps.setString(2, studentCourse.getUpdateBy());
+			ps.setTimestamp(3, (Timestamp)studentCourse.getUpdateOn());
+			
+			ps.setString(4, studentCourse.getStudentNo());
+			ps.setString(5, studentCourse.getCourseCode());
+			ps.setString(6, studentCourse.getSemester());
+			
+			
+			
+			result = ps.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println("Failed on execute database process");
+		}
+		
+		finally
+		{
+			try
+			{
+				ps.close();
+				con.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+				System.out.println("Failed on execute database resource");
+			}
+		}
+		
+	}
+
+	
+	public void delete(String studentNo, String courseCode, String semester) {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sqlDeleteCourse = "DELETE FROM tbl_student_course WHERE student_no = ? and course_code = ? and semester = ?";
+		
+		
+		try
+		{
+			con = getConnection();
+			ps = con.prepareStatement(sqlDeleteCourse);
+			ps.setString(1, courseCode);
+			ps.executeUpdate();
+			
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println("failed on execute database process"); 
+		}
+		finally
+		{
+			try
+			{
+				ps.close();
+				con.close();
+			}
+			catch (SQLException e)
+			{
+				System.out.println("failed to close database resource"); 
+			}
+		}
+		
+	}
+
+	@Override
+	public StudentCourse findById(String studentNo, String courseCode, String semester) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StudentCourse findByUk(String studentNo, String courseCode, String semester) {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs =null;
+		StudentCourse studentCourse = null;
+		String sqlSearchCourse = "select * from tbl_student_course where student_no = ? and course_code = ? and semester = ?";
+		
+		try
+		{
+			con = getConnection();
+			ps = con.prepareStatement(sqlSearchCourse);
+			ps.setString(1, studentNo);
+			ps.setString(2, courseCode);
+			ps.setString(3, semester);
+			rs = ps.executeQuery();
+			
+			if(rs.next())
+			{
+				studentCourse = new StudentCourse();
+				
+				studentCourse.setStudentNo(rs.getString("student_no"));
+				studentCourse.setCourseCode(rs.getString("course_code"));
+				studentCourse.setSemester(rs.getString("semester"));
+				studentCourse.setResult(rs.getInt("result"));
+				studentCourse.setCreateBy(rs.getString("create_by"));
+				studentCourse.setCreateOn(rs.getDate("create_on"));
+				studentCourse.setUpdateBy(rs.getString("update_by"));
+				studentCourse.setUpdateOn(rs.getDate("update_on"));
+			}
+		}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+				System.out.println("Failed on execute database process");
+			}
+			
+			finally
+			{
+				try
+				{
+					ps.close();
+					con.close();
+				}
+				catch (SQLException e)
+				{
+					e.printStackTrace();
+					System.out.println("Failed on execute database resource");
+				}
+			}
+		return studentCourse;
+	}
+
+	@Override
+	public Long getNextCourseId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	public List<StudentCourse> search() {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		StudentCourse studentCourse = null;
+		Course course = null;
+		Student student = null;
+		
+		List<StudentCourse> studenCoursetList = new ArrayList<StudentCourse>();
+//		String sql = "select * from tbl_student_course ";
+		   
+		String sql = " SELECT tsc.student_no, ts.student_name,tsc.course_code, TC.COURSE_NAME, TSC.SEMESTER, TSC.RESULT " +
+		    " from tbl_student_course tsc " +
+		    " join tbl_student ts on TS.STUDENT_NO = TSC.STUDENT_NO " +
+		    " join tbl_course tc on TC.COURSE_CODE = TSC.COURSE_CODE " ;
+				
+		try
+		{
+			con = getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while (rs.next())
+			{
+				studentCourse = new StudentCourse();
+				course = new Course();
+				student = new Student();
+				
+				studentCourse.setStudentNo(rs.getString("student_no"));
+				studentCourse.setStudentName(rs.getString("student_name"));
+				studentCourse.setCourseCode(rs.getString("course_code"));
+				studentCourse.setCourseName(rs.getString("course_name"));
+				studentCourse.setSemester(rs.getString("semester"));
+				studentCourse.setResult(rs.getInt("result"));
+				
+				studenCoursetList.add(studentCourse);
+				
+				
+				
+			}
+		}
+		
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println("Failed on execute database process");
+		}
+		
+		finally
+		{
+			try
+			{
+				ps.close();
+				con.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+				System.out.println("Failed on execute database resource");
+			}
+			
+			
+		}
+		return studenCoursetList;
+	}
+
+}

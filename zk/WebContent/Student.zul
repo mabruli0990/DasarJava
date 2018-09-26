@@ -1,0 +1,64 @@
+<?page title="Student"?>
+<window id="winStudent" title="Form Student" border="normal" width="100%"
+		apply="adaptive.zk.controller.StudentComposer">
+
+	<grid>
+            <columns>
+               <column label="" width="200px" />
+               <column label="" />
+           </columns>
+           <rows>
+               <row>
+                   <label value="Student Code" width="150px" />
+                   <div>
+                       <textbox id="txtSearchStudentCode" width="150px" />
+                   </div>
+               </row>
+               <row>
+                   <label value="Student Name" width="150px" />
+                   <div>
+                       <textbox id="txtSearchStudentName" width="150px" />
+                   </div>
+               </row>
+               
+               <row>
+                   <button id="addButton" label="Add"/>
+                   <div>
+                    <button id="searchButton" label="Search" />
+					<button id="clearButton" label="Clear"/>
+                   </div>
+               </row>
+               
+           </rows>
+       </grid>
+       <listbox id="studentListbox" height="auto" >
+			<listhead style="text-align:center;" menupopup="auto">
+				<listheader label="Aksi" width="100px" />
+				<listheader label="Student No" sort="auto(studentNo)"/>
+				<listheader label="Student Name" sort="auto(studentName)" />
+				<listheader label="Gender" sort="auto(gender)" />
+				<listheader label="Address" sort="auto(address)" />
+				<listheader label="Birth Place" sort="auto(birthPlace)" />
+				<listheader label="Birth Date" sort="auto(birthDate)" />
+				<listheader label="Active Flag" sort="auto(activeFlag)" />
+			</listhead>
+			<template name="model">
+				<listitem>
+					<listcell style="text-align:center;"> 
+						<a label="Edit" forward="onEdit(${each})"
+							style="color:blue" />
+						
+						<a label="Delete" forward="onDelete(${each})"
+							style="color:blue" />
+					</listcell>
+					<listcell label="${each.studentNo}"></listcell>
+					<listcell label="${each.studentName}"></listcell>
+					<listcell label="${each.gender}"></listcell>
+					<listcell label="${each.address}"></listcell>
+					<listcell label="${each.birthPlace}"></listcell>
+					<listcell label="${each.birthDate}"></listcell>
+					<listcell label="${each.activeFlag}"></listcell>
+				</listitem>
+			</template>
+		</listbox>
+</window>

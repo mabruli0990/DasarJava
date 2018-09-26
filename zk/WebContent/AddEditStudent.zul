@@ -1,0 +1,77 @@
+<?page title="Add/Edit Student" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Add/Edit Student" border="normal" id="modalAddEditStudent" 
+	width="50%" position="center,center" closable="true" 
+	action="show: slideDown;hide: slideUp"
+	apply="adaptive.zk.controller.AddEditStudentComposer">
+
+	<grid>
+         <columns>
+            <column label="" width="200px" />
+            <column label="" />
+        </columns>
+        <rows>
+            <row>
+                <label value="Student Code" width="150px" />
+                <div>
+                    <textbox id="txtAddEditStudentCode" width="150px" />
+                </div>
+            </row>
+            <row>
+                <label value="Student Name" width="150px" />
+                <div>
+                    <textbox id="txtAddEditStudentName" width="150px" />
+                </div>
+            </row>
+            <row>
+                <label value="Gender" width="150px" />
+                <div>
+                    <listbox id="cmbGender" tabindex="8" mold="select" width="200px" >
+						<listitem label="--Choose--" value="" />
+						<listitem label="Female" value="Female" />
+						<listitem label="Male" value="Male" />
+					</listbox>
+                </div>
+            </row>
+            <row>
+                <label value="Address" width="150px" />
+                <div>
+                    <textbox id="txtAddEditAddress" width="150px" />
+                </div>
+            </row>
+            <row>
+                <label value="Birth Place" width="150px" />
+                <div>
+                    <textbox id="txtAddEditBirthPlace" width="150px" />
+                </div>
+            </row>
+            <row>
+                <label value="Birth Date" width="150px" />
+                <div>
+                    <datebox id="dtBirthDate" cols="23" format="dd-MMM-yyyy"
+                     readonly="true" style="background:#fff;" />
+                      
+                </div>
+            </row>
+            <row>
+                <label value="Active" />
+                <div>
+                    <listbox id="cmbActiveFlag" mold="select" tabindex="8">
+						<listitem label="Yes" value="Y" />
+						<listitem label="No" value="N" />
+					</listbox>
+                </div>
+            </row>
+            
+            <row>
+                <label/>
+                <div>
+                    <button id="saveButton" label="Save" />
+					<button id="cancelButton" label="Cancel"/>
+                </div>
+            </row>
+            
+        </rows>
+    </grid>
+</window>
+</zk>

@@ -1,0 +1,33 @@
+package edu.adaptive.database.client;
+
+import java.util.Scanner;
+
+import edu.adaptive.database.model.Student;
+import edu.adaptive.database.services.StudentService;
+import edu.adaptive.database.services.StudentServiceImpl;
+
+public class StudentInsert {
+	public void Insert()
+	{
+		Scanner scan = new Scanner(System.in);
+		String strInput = "";
+		Student student = new Student();
+		StudentService studentService = new StudentServiceImpl();
+		
+		System.out.print("No Pelajar : ");
+		strInput = scan.nextLine();
+		student.setCourseCode(strInput);
+		
+		System.out.print("Nama Pelajar : ");
+		strInput = scan.nextLine();
+		student.setCourseName(strInput);
+		
+		System.out.println("Aktif [Y / N] : ");
+		strInput = scan.nextLine();
+		student.setActiveFlag(strInput);
+		student.setCreateBy("Admin");
+		
+		courseService.insert(student);
+		System.out.println("Data mata Kuliah " + course.getCourseCode() + " Berhasil Disimpan !");
+	}
+}

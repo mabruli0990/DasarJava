@@ -1,0 +1,47 @@
+package edu.adaptive.database.service;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+import edu.adaptive.database.dao.CourseDAO;
+import edu.adaptive.database.dao.CourseDAOImpl;
+
+import edu.adaptive.database.model.Course;
+
+public class CourseServiceImpl implements CourseService{
+	
+	private CourseDAO courseDAO = new CourseDAOImpl();
+
+	@Override
+	public void insert(Course course) {
+		// TODO Auto-generated method stub
+		course.setCreateOn(new Timestamp(System.currentTimeMillis()));
+		courseDAO.insert(course);
+		
+	}
+
+	@Override
+	public void update(Course course) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(String courseCode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Course findById(String courseCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Course> search() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
