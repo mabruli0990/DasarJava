@@ -1,0 +1,407 @@
+CREATE TABLE app_setting_type
+(
+	type_code varchar2(64) not null,
+	type_name varchar2(64) not null,
+	created_by varchar2(16),
+	created_dt timestamp,
+	update_by varchar2(16),
+	update_dt timestamp
+);
+
+CREATE TABLE app_setting
+(
+	setting_code varchar2(64) not null,
+	type_code varchar2(64) not null,
+	setting_name varchar2(64),
+	created_by varchar2(16),
+	created_dt timestamp,
+	update_by varchar2(16),
+	update_dt timestamp
+);
+
+CREATE TABLE tb_r_rddp_submit_format
+(
+	submit_format_id number(10),
+	rddp_id number(10),
+	format_cd varchar2(64),
+
+	created_by varchar2(16),
+	created_dt timestamp,
+	update_by varchar2(16),
+	update_dt timestamp
+);
+
+
+CREATE TABLE tb_m_project
+(
+	project_id int,
+	project_cd varchar2(16),
+	project_name varchar2(64),
+
+	created_by varchar2(16),
+	created_dt timestamp,
+	update_by varchar2(16),
+	update_dt timestamp
+);
+
+CREATE TABLE tb_m_car_family
+(
+	car_family_id int,
+	car_family_cd varchar2(16),
+	car_family_name varchar2(64),
+	market_name varchar2(64),
+
+	created_by varchar2(16),
+	created_dt timestamp,
+	update_by varchar2(16),
+	update_dt timestamp
+);
+
+
+CREATE TABLE tb_m_design
+(
+	design_id int,
+	design_cd varchar2(8),
+	design_name varchar2(64),
+
+	created_by varchar2(16),
+	created_dt timestamp,
+	update_by varchar2(16),
+	update_dt timestamp
+);
+
+
+CREATE TABLE tb_r_rddp
+(
+	rddp_id number(10),
+	rddp_no varchar2(16),
+	rddp_dt date,
+	rddp_type varchar2(64),
+	project_id int,
+	car_family_id int,
+	design_id int,
+	issued_base varchar2(64),
+	tmc_to_supp_send_dt date,
+	dcs_doc_req varchar2(64),
+	dcs_rcv_due_dt date,
+	eci_no varchar2(12),
+	supplier_id int,
+	designer_name varchar2(100),
+	asa_rcv_due_dt date,
+	rddp_supp_rcv_dt date,
+	doc_format_3d varchar2(64),
+	rddp_doc_name varchar2(128),
+	rddp_doc_name_svr varchar2(256),
+	dcs_rcv_dt date,
+	asa_new_rcv_due_dt date,
+	dcs_tmc_send_dt date,
+	dcs_doc_name varchar2(128),
+	dcs_doc_name_svr varchar2(256),
+	asa_rcv_dt date,
+	asa_tmc_send_dt date,
+	cancel_note varchar2(250),
+	rad_release_dt date,
+	status varchar2(64),
+
+	created_by varchar2(16),
+	created_dt timestamp,
+	update_by varchar2(16),
+	update_dt timestamp
+);
+
+
+CREATE TABLE tb_m_part
+(
+	part_no varchar2(15),
+	part_name varchar2(32),
+
+	created_by varchar2(16),
+	created_dt timestamp,
+	update_by varchar2(16),
+	update_dt timestamp
+);
+
+
+
+CREATE TABLE tb_r_rddp_part
+(
+	rddp_part_id number(10),
+	rddp_id number(10),
+	part_no varchar2(15),
+	rad_release_dt date,
+	rad_doc_name varchar2(128),
+
+	created_by varchar2(16),
+	created_dt timestamp,
+	update_by varchar2(16),
+	update_dt timestamp
+);
+
+
+
+CREATE TABLE tb_m_supplier
+(
+	supplier_id int,
+	supplier_cd varchar2(16),
+	supplier_name varchar2(64),
+	country_id int,
+	address varchar2(200),
+
+	created_by varchar2(16),
+	created_dt timestamp,
+	update_by varchar2(16),
+	update_dt timestamp
+);
+
+alter table app_setting_type add
+(
+	 constraint app_setting_type_ak unique (type_name),
+	 constraint app_setting_type_pk primary key(type_code)
+);
+
+
+alter table app_setting add
+(
+	constraint app_setting_pk primary key(setting_code),
+	constraint app_setting_fk foreign key(type_code) references app_setting_type(type_code)
+);
+
+
+alter table tb_r_rddp_submit_format add
+(
+	constraint tb_r_rddp_submit_format_ak unique(rddp_id,format_cd),
+	constraint tb_r_rddp_submit_format_pk primary key(submit_format_id)
+);
+
+alter table tb_m_project add
+(
+	constraint tb_m_project_pk primary key(project_id),
+	constraint tb_m_project_ak unique (project_cd)
+);
+
+
+alter table tb_m_car_family add
+(
+	constraint tb_m_car_family_pk primary key(car_family_id),
+	constraint tb_m_car_family_ak unique(car_family_cd)
+);
+
+
+alter table tb_m_design add
+(
+	constraint tb_m_design_pk primary key(design_id),
+	constraint tb_m_design_ak unique(design_cd)
+);
+
+
+alter table tb_r_rddp add
+(
+	constraint tb_r_rddp_pk primary key (rddp_id),
+	constraint tb_r_rddp_ak unique (rddp_no)
+);
+
+
+alter table tb_m_part add
+(
+	constraint tb_m_part_pk primary key (part_no)
+);
+
+
+alter table tb_r_rddp_part add
+(
+	constraint tb_r_rddp_part_pk primary key(rddp_part_id),
+	constraint tb_r_rddp_part_ak unique (rddp_id,part_no)
+);
+
+
+alter table tb_m_supplier add 
+(
+	constraint tb_m_supplier_pk primary key (supplier_id),
+	constraint tb_m_supplier_ak unique (supplier_cd)
+);
+
+
+alter table tb_r_rddp_submit_format add
+(
+	constraint tb_r_rddp_submit_format_fk foreign key(rddp_id) references tb_r_rddp(rddp_id),
+	constraint tb_r_rddp_submit_format_fk2 foreign key(format_cd) references app_setting(setting_code)
+);
+
+
+alter table tb_r_rddp add
+(
+	constraint tb_r_rddp_fk1 foreign key(rddp_type) references app_setting(setting_code),
+	constraint tb_r_rddp_fk2 foreign key(project_id) references tb_m_project(project_id),
+	constraint tb_r_rddp_fk3 foreign key(car_family_id) references tb_m_car_family(car_family_id),
+	constraint tb_r_rddp_fk4 foreign key(design_id) references tb_m_design(design_id),
+	constraint tb_r_rddp_fk5 foreign key(issued_base) references app_setting(setting_code),
+	constraint tb_r_rddp_fk6 foreign key(dcs_doc_req) references app_setting(setting_code),
+	constraint tb_r_rddp_fk7 foreign key(supplier_id) references tb_m_supplier(supplier_id),
+	constraint tb_r_rddp_fk8 foreign key(doc_format_3d) references app_setting(setting_code),
+	constraint tb_r_rddp_fk9 foreign key(status) references app_setting(setting_code)
+);
+
+
+alter table tb_r_rddp_part add
+(
+	constraint tb_r_rddp_part_fk1 foreign key (rddp_id) references tb_r_rddp(rddp_id),
+	constraint tb_r_rddp_part_fk2 foreign key (part_no) references tb_m_part(part_no)
+);
+
+
+
+insert into app_setting_type (type_code, type_name, created_by, created_dt)
+    values('RDDP_TYPE', 'RDDP Type', 'Trilink Trainee', TIMESTAMP'2018-05-21 10:00:00');
+    
+
+insert into app_setting_type (type_code, type_name, created_by, created_dt)
+    values('ISSUED_BY', 'ISSUED By', 'Trilink Trainee', TIMESTAMP'2018-05-21 10:00:00');
+
+
+insert into app_setting_type (type_code, type_name, created_by, created_dt)
+    values('DCS_DOC', 'DCS Doc', 'Trilink Trainee', TIMESTAMP'2018-05-21 10:00:00');
+
+insert into app_setting_type (type_code, type_name, created_by, created_dt)
+    values('3D_FORMAT', '3D Data Format', 'Trilink Trainee', TIMESTAMP'2018-05-21 10:00:00');
+    
+insert into app_setting_type (type_code, type_name, created_by, created_dt)
+    values('DOC_FORMAT', 'Submit Format', 'Trilink Trainee', TIMESTAMP'2018-05-21 10:00:00');
+
+
+insert into app_setting(setting_code, type_code, setting_name, created_by, created_dt)
+	values('RDDP_TYPE_PROJECT', 'RDDP_TYPE', 'Project', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00') ;
+
+insert into app_setting(setting_code, type_code, setting_name, created_by, created_dt)
+	values('RDDP_TYPE_REGULAR', 'RDDP_TYPE', 'Regular', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00') ;
+
+insert into app_setting(setting_code, type_code, setting_name, created_by, created_dt)
+	values('ISSUED_BY_TMC', 'ISSUED_BY', 'TMC', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00') ;
+
+insert into app_setting(setting_code, type_code, setting_name, created_by, created_dt)
+	values('ISSUED_BY_TMMIN', 'ISSUED_BY', 'TMMIN', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00') ;
+
+insert into app_setting(setting_code, type_code, setting_name, created_by, created_dt)
+	values('ISSUED_BY_ECR', 'ISSUED_BY', 'ECR', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00') ;
+
+insert into app_setting(setting_code, type_code, setting_name, created_by, created_dt)
+	values('DCS_DOC_REQ', 'DCS_DOC', 'Required', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00') ;
+
+insert into app_setting(setting_code, type_code, setting_name, created_by, created_dt)
+	values('DCS_DOC_NOT_REQ', 'DCS_DOC', 'Not Required', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00') ;
+
+insert into app_setting(setting_code, type_code, setting_name, created_by, created_dt)
+	values('3D_FORMAT_CATIA', '3D_FORMAT', 'Catia V5', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00') ;
+
+insert into app_setting(setting_code, type_code, setting_name, created_by, created_dt)
+	values('3D_FORMAT_PROE', '3D_FORMAT', 'Pro/E', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00') ;
+
+insert into app_setting(setting_code, type_code, setting_name, created_by, created_dt)
+	values('DOC_FORMAT_1', 'DOC_FORMAT', 'Data As Master(3D+2D)', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00') ;
+
+insert into app_setting(setting_code, type_code, setting_name, created_by, created_dt)
+	values('DOC_FORMAT_2', 'DOC_FORMAT', 'Data As Master(2D)', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00') ;
+
+insert into app_setting(setting_code, type_code, setting_name, created_by, created_dt)
+	values('DOC_FORMAT_3', 'DOC_FORMAT', 'Paper As Master ', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00') ;
+
+
+insert into tb_m_car_family (car_family_id, car_family_cd, car_family_name, market_name, created_by, created_dt)
+	values(1,'453W', '453W', 'Passenger', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00' );
+
+insert into tb_m_car_family (car_family_id, car_family_cd, car_family_name, market_name, created_by, created_dt)
+	values(2,'454W', '454W', 'Passenger', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00' );
+
+
+insert into tb_m_car_family (car_family_id, car_family_cd, car_family_name, market_name, created_by, created_dt)
+	values(3,'513W', '513W', 'Passenger', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00' );
+
+insert into tb_m_car_family (car_family_id, car_family_cd, car_family_name, market_name, created_by, created_dt)
+	values(4,'455W', '455W', 'Passenger', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00' );
+
+insert into tb_m_car_family (car_family_id, car_family_cd, car_family_name, market_name, created_by, created_dt)
+	values(5,'456W', '456W', 'Passenger', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00' );
+
+insert into tb_m_car_family (car_family_id, car_family_cd, car_family_name, market_name, created_by, created_dt)
+	values(6,'457W', '457W', 'Passenger', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00' );
+
+insert into tb_m_car_family (car_family_id, car_family_cd, car_family_name, market_name, created_by, created_dt)
+	values(7,'458W', '458W', 'Passenger', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00' );
+
+
+
+
+
+insert into tb_m_part (part_no, part_name, created_by, created_dt)
+	values('00303-0D009-K', 'ASSY DRAWING, TRANSAXLE MANUAL', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+
+insert into tb_m_part (part_no, part_name, created_by, created_dt)
+	values('00305-52017-C', 'ASSY DRAWING, AUTOMATIC TRANSAXLE', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+
+insert into tb_m_part (part_no, part_name, created_by, created_dt)
+	values('00307-12003', 'ASSY DRAWING, CV TRANSAXLE', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+
+insert into tb_m_part (part_no, part_name, created_by, created_dt)
+	values('00311-0D010-F', 'ASSY DRAWING, CLUTCH', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+
+insert into tb_m_part (part_no, part_name, created_by, created_dt)
+	values('00314-0D030-A', 'INSTALLATION DRAWING, CLUTCH TUBING', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+
+insert into tb_m_part (part_no, part_name, created_by, created_dt)
+	values('00314-71001', 'INSTALLATION DRAWING, CLUTCH CABLE', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+
+insert into tb_m_part (part_no, part_name, created_by, created_dt)
+	values('00316-0D007-C', 'INSTALLATION DRAWING, CLUTCH MASTER CYL', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+
+insert into tb_m_part (part_no, part_name, created_by, created_dt)
+	values('00331-02K012-H', 'ASSY DRAWING, TRANSMISSION', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+
+
+insert ALL
+into tb_m_supplier(supplier_id, supplier_cd, supplier_name, address, created_by, created_dt)
+	values(1, '5011', 'AISIN INDONESIA', 'Indonesia', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_supplier(supplier_id, supplier_cd, supplier_name, address, created_by, created_dt)
+	values(2, '5022', 'DENSO SALES INDONESIA', 'Indonesia', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_supplier(supplier_id, supplier_cd, supplier_name, address, created_by, created_dt)
+	values(3, '5021', 'DASA WINDU AGUNG', 'Indonesia', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_supplier(supplier_id, supplier_cd, supplier_name, address, created_by, created_dt)
+	values(4, '5035', 'INDOKARLO PERKASA', 'Indonesia', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_supplier(supplier_id, supplier_cd, supplier_name, address, created_by, created_dt)
+	values(5, '5148', 'JAYA VICTORI CEMERLANG', 'Indonesia', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_supplier(supplier_id, supplier_cd, supplier_name, address, created_by, created_dt)
+	values(6, '5000', 'NUSA TOYOTETSU CORP', 'Indonesia', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_supplier(supplier_id, supplier_cd, supplier_name, address, created_by, created_dt)
+	values(7, '5304', 'TOKAI RIKA INDONESIA', 'Indonesia', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_supplier(supplier_id, supplier_cd, supplier_name, address, created_by, created_dt)
+	values(8, '5365', 'TOKAI RUBBER INDONESIA', 'Indonesia', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_supplier(supplier_id, supplier_cd, supplier_name, address, created_by, created_dt)
+	values(9, '0007', 'ASTRA OTOPARTS Tbk', 'Indonesia', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_supplier(supplier_id, supplier_cd, supplier_name, address, created_by, created_dt)
+	values(10, '5005', 'AT INDONESIA', 'Indonesia', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_supplier(supplier_id, supplier_cd, supplier_name, address, created_by, created_dt)
+	values(11, '5263', 'DIAMOND ELECTRIC INDONESIA', 'Indonesia', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_supplier(supplier_id, supplier_cd, supplier_name, address, created_by, created_dt)
+	values(12, '5024', 'AUTOCOMP SYSTEMS INDONESIA', 'Indonesia', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_supplier(supplier_id, supplier_cd, supplier_name, address, created_by, created_dt)
+	values(12, '5366', 'TOKAI RUBBER AUTOHOUSE', 'Indonesia', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+SELECT * FROM dual;
+
+
+
+inser ALL
+into tb_m_design(design_id, design_cd, design_name, created_by, created_dt)
+	values(1, 'BM201', 'OWNERS MANUAL', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_design(design_id, design_cd, design_name, created_by, created_dt)
+	values(2, 'DD102', 'INTERIOR DESIGN DEPT. NO. 1', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_design(design_id, design_cd, design_name, created_by, created_dt)
+	values(3, 'DD403', 'SEAT DESIGN DEPT.', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_design(design_id, design_cd, design_name, created_by, created_dt)
+	values(4, 'DD601', 'HVAC DESIGN DEPT.', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_design(design_id, design_cd, design_name, created_by, created_dt)
+	values(5, 'DDC04', 'RESTRAINT SYSTEM DESIGN DEPT.', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_design(design_id, design_cd, design_name, created_by, created_dt)
+	values(6, 'DE100', 'MS. CHASSIS ENGINEERING DIV.', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_design(design_id, design_cd, design_name, created_by, created_dt)
+	values(7, 'DE350', 'BRAKE DRAWING', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+into tb_m_design(design_id, design_cd, design_name, created_by, created_dt)
+	values(8, 'DE430', 'CHASSIS ENGINEERING DEPT. NO.23	', 'Trilink Trainee', TIMESTAMP'2018-05-21 06:00:00')
+SELECT * from dual;

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/header :: header"></div>
+
+<body>
+
+	<div id="wrapper">
+		<div th:replace="fragments/navSidebar :: navSidebar"></div>
+
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Student</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-lg-12">
+					<a th:href="@{course/add}" class="btn btn-primary">Add</a>
+					<div class="panel panel-default">
+						<div class="panel-heading">DataTables Advanced Students</div>
+						<!-- /.panel-heading -->
+						<div class="panel-body">
+							<table width="100%"
+								class="table table-striped table-bordered table-hover"
+								id="dataTables-example">
+								<thead>
+									<tr>
+										<th>Course Code</th>
+										<th>Course Name</th>
+										<th>Active</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="odd gradeX" th:each="courses : ${Course}">
+										<td th:text="${courses.courseCode}"></td>
+										<td th:text="${courses.courseName}"></td>
+										<td th:text="${courses.activeFlag}"></td>
+										<td>
+										<a th:href="${'/course/edit/'+courses.courseCode}"><span
+												class="glyphicon glyphicon-edit"></span></a> 
+										<a th:href="${'course/remove/'+courses.courseCode}"
+											style="padding-left: 20px;"><span
+												class="glyphicon glyphicon-remove"></span></a></td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+
+		</div>
+		<!-- /#page-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+
+
+	<!-- jQuery -->
+	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+
+	<!-- Metis Menu Plugin JavaScript -->
+	<script th:src="@{/vendor/metisMenu/metisMenu.min.js}"></script>
+
+	<!-- DataTables JavaScript -->
+	<script th:src="@{/vendor/datatables/js/jquery.dataTables.min.js}"></script>
+	<script
+		th:src="@{/vendor/datatables-plugins/dataTables.bootstrap.min.js}"></script>
+	<script
+		th:src="@{/vendor/datatables-responsive/dataTables.responsive.js}"></script>
+
+	<!-- Custom Theme JavaScript -->
+	<script th:src="@{/dist/js/sb-admin-2.js}"></script>
+
+	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+	<script>
+		$(document).ready(function() {
+			$('#dataTables-example').DataTable({
+				responsive : true
+			});
+		});
+	</script>
+
+</body>
+
+</html>
